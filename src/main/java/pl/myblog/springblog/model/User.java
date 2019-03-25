@@ -39,4 +39,7 @@ public class User {
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER,mappedBy = "user")
   private Set<Post> posts=new HashSet<>();
+
+
+
 }
