@@ -12,7 +12,7 @@ import pl.myblog.springblog.service.MainService;
 import java.util.List;
 
 @RestController
-//@RequestMapping("/rest")
+@RequestMapping("/rest")
 public class MainController {
 
   MainService mainService;
