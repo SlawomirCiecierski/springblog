@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.myblog.springblog.model.Post;
 import pl.myblog.springblog.model.User;
 import pl.myblog.springblog.service.MainService;
+
 import java.util.List;
 
 @RestController
@@ -16,50 +17,60 @@ import java.util.List;
 public class MainController {
 
   MainService mainService;
+
   @Autowired
   public MainController(MainService mainService) {
     this.mainService = mainService;
   }
+
   @GetMapping("/")
-  public String home(){
+  public String home() {
     return "Hello my BLOG!";
   }
+
   @GetMapping("/users")
-  public List<User> getUsers(){
+  public List<User> getUsers() {
     return mainService.getAllUsers();
   }
+
   @GetMapping("/users/{email}")
-  public User getUserByEmail(@PathVariable("email") String email){
+  public User getUserByEmail(@PathVariable("email") String email) {
     return mainService.getUserByEmail(email);
   }
+
   @GetMapping("/users/count")
-  public Long countAllUsers(){
+  public Long countAllUsers() {
     return mainService.countAllUsers();
   }
+
   @GetMapping("/users/update/{id}")
-  public String updateUser(@PathVariable("id") Long id){
+  public String updateUser(@PathVariable("id") Long id) {
     mainService.updateUserActivityById(id);
     return "Zmieniono aktywność";
   }
+
   @GetMapping("/login/{email}/{password}")
   public String loginCheck(
           @PathVariable("email") String email,
-          @PathVariable("password") String password){
+          @PathVariable("password") String password) {
     // zwraca usera lub null
     User user = mainService.logIn(email, password);
-    return (user != null) ? user.toString() : "Błąd logowania" ;
+    return (user != null) ? user.toString() : "Błąd logowania";
   }
+
   @GetMapping("/users/delete/{id}")
-  public String deleteUser(@PathVariable("id") Long id){
+  public String deleteUser(@PathVariable("id") Long id) {
     mainService.deleteUserById(id);
     return "Usunięto";
   }
+
   @GetMapping("/post/add/{id}/{title}/{content}")
   public String addPost(
           @PathVariable("id") Long id,
           @PathVariable("title") String title,
-          @PathVariable("content") String content){
-    mainService.addPost(id,title, content);
+          @PathVariable("content") String content) {
+    mainService.addPost(id, title, content);
     return "DODANO POSTA";
   }
+
 }

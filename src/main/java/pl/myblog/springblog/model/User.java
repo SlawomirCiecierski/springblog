@@ -29,7 +29,7 @@ public class User {
   @NotNull
   private String email;
   @Length(min = 6)                                    // min 6 znaków
-  @Pattern(regexp = "([A-Z]+.*[0-9]+|[0-9]+.*[A-Z])") // co najmniej 1XCL 1XDIGIT
+  //@Pattern(regexp = "([A-Z]+.*[0-9]+|[0-9]+.*[A-Z])") // co najmniej 1XCL 1XDIGIT
   private String password;
 
   private Boolean active = true;
@@ -48,5 +48,9 @@ public class User {
   // metoda dodająca posta dla użytkownika
   public void addPost(Post post){
     this.posts.add(post);
+  }
+  public void addRole(Role role){
+    this.roles.add(role);
+
   }
 }
