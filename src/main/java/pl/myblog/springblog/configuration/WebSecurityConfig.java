@@ -27,8 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             // .antMatchers(/url) -> wymaga autoryzacji
             // .hasAnyAuthority("uprawnienie") -> dla określonego uprawnienia
             .antMatchers("/deletepost/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
+            .antMatchers("/addpost").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
             .antMatchers("/updatepost/**").hasAnyAuthority("ROLE_USER", "ROLE_ADMIN")
-            .antMatchers("/addPost").hasAnyAuthority("ROLE_USER")
+            .antMatchers("/admin").hasAnyAuthority( "ROLE_ADMIN")
             // pozostałe URL udostępnij dla każdego
             .anyRequest().permitAll()
             .and()
@@ -49,8 +50,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .failureUrl("/errorLogin")
             .and()
             .logout()
+            // adres do wylogowania
             .logoutUrl("/logout")
-            //miejsce po wylogowaniu
+            // miejsce po wylogowaniu
             .logoutSuccessUrl("/");
   }
 
