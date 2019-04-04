@@ -41,7 +41,9 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.safari.*;
 
 import java.io.IOException;
 
@@ -87,6 +89,14 @@ public class SiteSteps {
         System.setProperty("webdriver.gecko.driver", "src/test/resources/driver/geckodriver.exe");
         driver = new FirefoxDriver();
         break;
+      case "safari":
+        System.setProperty("webdriver.safari.driver", "src/test/resources/driver/SafariDriver.safariextz");
+        driver = new SafariDriver();
+        break; //doesnt work
+      case "opera":
+          System.setProperty("webdriver.opera.driver", "src/test/resources/driver/operadriver.exe");
+          driver = new OperaDriver();
+          break; //doesnt work
       default:
         System.setProperty("webdriver.chrome.driver", "src/test/resources/driver/chromedriver.exe");
         driver = new ChromeDriver();
