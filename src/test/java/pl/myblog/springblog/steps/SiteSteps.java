@@ -33,7 +33,7 @@ package pl.myblog.springblog.steps;
  */
 
 import cucumber.api.java.After;
-import cucumber.api.java.Before;
+
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -54,29 +54,26 @@ public class SiteSteps {
 
   long countOfFailures = 0;
 
+  /**
+   * stworzenie obiektu klasy nadrzędnej do
+   * ChromeDriver;
+   * FirefoxDriver;
+   * InternetExplorerDriver;
+   */
   private RemoteWebDriver driver;
 
 
-//  private String springBlogWebdriver;
-//  private String pathToWebdriver;
-//  private String websiteUrlSpringblog;
-//  private String comment;
-//  private long countOfComments;
-
-
-  //-----------------------------------Before, Given, When, Then, After
-//  @Before
-//  public void setUp() {
-//    System.setProperty("webdriver.chrome.driver", "src/test/resources/driver/chromedriver.exe");
-//    driver = new ChromeDriver();
-//
-//  }
-
-
   //----------------------------------------------------
+
+  /**
+   * @param websiteUrlSpringblog Url testowanej strony - przekazywany z adnotacji @Given
+   * @param browser              przeglądarka - przekazywana z adnotacji @Given
+   */
   @Given("Użytkownik otworzy stronę komentarzy postu {string} w przeglądarce {string}")
   public void userOpensSiteSpringblog(final String websiteUrlSpringblog, String browser) {
-
+/**
+ * zastosowanie drivera w zależności od wyboru
+ */
     switch (browser) {
       case "chrome":
         System.setProperty("webdriver.chrome.driver", "src/test/resources/driver/chromedriver.exe");
@@ -90,6 +87,10 @@ public class SiteSteps {
         System.setProperty("webdriver.gecko.driver", "src/test/resources/driver/geckodriver.exe");
         driver = new FirefoxDriver();
         break;
+      default:
+        System.setProperty("webdriver.chrome.driver", "src/test/resources/driver/chromedriver.exe");
+        driver = new ChromeDriver();
+        break;
     }
     driver.get(websiteUrlSpringblog);
 
@@ -98,25 +99,39 @@ public class SiteSteps {
   @When("Użytkownik umieści komentarz o treści {string} oraz {string}")
   public void insertCommentsInto(String comment, String content) throws IOException {
 
-
+/**
+ * zdefiniowanie obiektów na testowanej stronie
+ */
     try {
       final WebElement searchBoxElement1 = driver.findElement(By.id("message"));
       final WebElement searchBoxElement2 = driver.findElement(By.id("name"));
       final WebElement searchBoxElement3 = driver.findElement(By.id("sendMessageButton"));
 
-
+      /**
+       * wysłanie tekstu do pierwszego obitu o id="message"
+       */
       content = String.format("%s %s", content, now());
       searchBoxElement1.sendKeys(content);
 
+      /**
+       * wysłanie tekstu do pierwszego obitu o id="name"
+       */
       String nameDriver = driver.getClass().toString();
       comment = comment + nameDriver;
       searchBoxElement2.sendKeys(comment);
 
+      /**
+       * użycie przycisku - wysłąnie treści do bazy MySQL
+       */
       searchBoxElement3.sendKeys(Keys.ENTER);
 
     } catch (Exception e) {
-
+      /**
+       * obsługa wyjątków:
+       * wykonanie printscreena obiektu driver tj. strony internetowej
+       */
       takeScreenShot(driver, "Springblog");
+      //zwiększenie licznika błędów
       countOfFailures++;
       System.out.println("Niepowodzenie operacji. Ilość błędów: " + countOfFailures);
 
@@ -131,11 +146,18 @@ public class SiteSteps {
   @Then("Użytkownik spodziewa się bezawaryjnego działania w każdej ilości powtórzeń")
   public void userLearnsCountOfFailures() {
 
+    /**
+     * obsługa zaplanowanego scenariusza
+     */
     assertTrue("Warunek: ilość niepowodzeń: --> " + countOfFailures + " <-- jest rózna od 0 <-- ",
             countOfFailures == 0);
 
+
   }
 
+  /**
+   * zamknięcie drivera
+   */
   @After
   public void finish() {
     driver.close();
