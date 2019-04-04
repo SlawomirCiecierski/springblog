@@ -15,7 +15,8 @@ import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(plugin={"pretty", "html:cucumber"})
+@CucumberOptions(features="src/test/resources/pl.myblog.springblog/",
+        plugin={"pretty", "html:cucumber"})
 public class SpringblogApplicationTests {
 
 //  @Test
